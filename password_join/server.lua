@@ -1,4 +1,4 @@
-local correctPassword = "supersecret"  -- your chosen password
+local correctPassword = "setpassword"  -- your chosen password
 local authorizedPlayers = {}           -- will store players' unique identifiers upon successful auth
 
 -- Helper function to get a player's unique identifier (e.g., their license)

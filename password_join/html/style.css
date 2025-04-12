@@ -1,16 +1,24 @@
-body {
-    background-color: #000;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin-top: 20%;
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;  /* Remove the persistent black background */
+    overflow: hidden;
 }
 
 #passwordContainer {
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    border-radius: 5px;
-    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 1);  /* Black background only when displayed */
+    z-index: 9999;
 }
 
 input, button {
@@ -18,4 +26,3 @@ input, button {
     padding: 5px 10px;
     margin-top: 10px;
 }
-

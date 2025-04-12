@@ -1,16 +1,19 @@
 local authed = false
 
--- Check immediately with the server if the player has been authenticated
 Citizen.CreateThread(function()
+    -- Immediately fade out the screen
+    DoScreenFadeOut(0)
+    
+    -- Ask the server if this player has been authenticated already
     TriggerServerEvent("checkIfAuthed")
-    Citizen.Wait(1000)  -- wait a bit for the server response
+    Citizen.Wait(1000)
+    
     if not authed then
         SetNuiFocus(true, true)
         SendNUIMessage({ action = "show" })
     end
 end)
 
--- This thread disables controls until the player is authenticated.
 Citizen.CreateThread(function()
     while not authed do
         Citizen.Wait(0)
@@ -18,22 +21,23 @@ Citizen.CreateThread(function()
     end
 end)
 
--- Successful authentication callback from the server.
 RegisterNetEvent("passwordAuth:success")
 AddEventHandler("passwordAuth:success", function()
     authed = true
     SetNuiFocus(false, false)
     SendNUIMessage({ action = "hide" })
+    Citizen.SetTimeout(100, function()
+        DoScreenFadeIn(500)
+    end)
+    print("Authentication successful!")
 end)
 
--- Failure callback (usually the player will be kicked).
 RegisterNetEvent("passwordAuth:failed")
 AddEventHandler("passwordAuth:failed", function(message)
-    SetNuiFocus(false, false)
+    SetNuiFocus(true, true)
     SendNUIMessage({ action = "show", error = message })
 end)
 
--- Called by the NUI when a password is submitted.
 RegisterNUICallback("submitPassword", function(data, cb)
     local password = data.password
     TriggerServerEvent("checkPassword", password)
